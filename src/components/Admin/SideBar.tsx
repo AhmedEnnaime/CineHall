@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 const navigation = [
   { name: "Home", icon: HomeIcon, href: "/dashboard" },
   { name: "Halls", icon: BuildingLibraryIcon, href: "/halls" },
-  { name: "Films", icon: FilmIcon, href: "#" },
+  { name: "Films", icon: FilmIcon, href: "/films" },
   { name: "Reservations", icon: CalendarIcon, href: "#" },
   { name: "Logout", icon: ArrowRightOnRectangleIcon, href: "#" },
 ];

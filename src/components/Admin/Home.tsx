@@ -89,8 +89,13 @@ const Home: React.FC = () => {
       icon: BuildingLibraryIcon,
       amount: hallsCount,
     },
-    { name: "Films", href: "#", icon: FilmIcon, amount: filmsCount },
-    { name: "Clients", href: "#", icon: UsersIcon, amount: usersCount },
+    { name: "Films", href: "/films", icon: FilmIcon, amount: filmsCount },
+    {
+      name: "Clients",
+      href: "/dashboard",
+      icon: UsersIcon,
+      amount: usersCount,
+    },
     {
       name: "Reservations",
       href: "#",
