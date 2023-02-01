@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Users: React.FC = () => {
-  const [users, setUsers] = useState<User>();
+  const [users, setUsers] = useState<User[]>();
   const url = "http://localhost/YouCode/CineHall_api";
 
   useEffect(() => {
@@ -11,24 +11,15 @@ const Users: React.FC = () => {
   }, []);
   const getUsers = async () => {
     await axios
-      .get<User>(`${url}/users`)
+      .get(`${url}/users`)
       .then((res) => {
-        console.log(res.data);
-        setUsers(res.data);
+        setUsers(res.data.Users);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  const people = [
-    {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      email: "lindsay.walton@example.com",
-      role: "Member",
-    },
-    // More people...
-  ];
+
   return (
     <>
       <div className="px-4 sm:px-6 lg:px-8 mt-12">
@@ -77,26 +68,26 @@ const Users: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {people.map((person) => (
-                      <tr key={person.email}>
+                    {users?.map((user: User, key) => (
+                      <tr key={key}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          {person.name}
+                          {user.fname}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {person.title}
+                          {user.lname}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {person.email}
+                          {user.email}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {person.role}
+                          {user.role}
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                           <a
                             href="#"
                             className="text-indigo-600 hover:text-indigo-900"
                           >
-                            Edit<span className="sr-only">, {person.name}</span>
+                            Edit<span className="sr-only">, {user.lname}</span>
                           </a>
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">

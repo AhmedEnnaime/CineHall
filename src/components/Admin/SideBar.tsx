@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const navigation = [
   { name: "Home", icon: HomeIcon, href: "/dashboard" },
-  { name: "Halls", icon: BuildingLibraryIcon, href: "#" },
+  { name: "Halls", icon: BuildingLibraryIcon, href: "/halls" },
   { name: "Films", icon: FilmIcon, href: "#" },
   { name: "Reservations", icon: CalendarIcon, href: "#" },
   { name: "Logout", icon: ArrowRightOnRectangleIcon, href: "#" },
@@ -22,7 +22,7 @@ function classNames(...classes: any) {
 
 const SideBar: React.FC = () => {
   return (
-    <div className="flex h-screen flex-1 flex-col bg-indigo-700">
+    <div className="flex h-screen flex-1 flex-col bg-indigo-700 w-1/6 fixed">
       <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
         <div className="flex flex-shrink-0 items-center px-4">
           <img className="" src={logo} alt="Company" />

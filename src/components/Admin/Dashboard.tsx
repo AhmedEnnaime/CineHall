@@ -3,12 +3,12 @@ import Home from "./Home";
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="flex flex-row">
-      <div className="w-1/6">
-        <SideBar />
+    <>
+      <SideBar />
+      <div className="flex flex-row justify-end">
+        <Home />
       </div>
-      <Home />
-    </div>
+    </>
   );
 };
 

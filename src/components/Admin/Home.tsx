@@ -83,7 +83,12 @@ const Home: React.FC = () => {
   };
 
   const cards = [
-    { name: "Halls", href: "#", icon: BuildingLibraryIcon, amount: hallsCount },
+    {
+      name: "Halls",
+      href: "/halls",
+      icon: BuildingLibraryIcon,
+      amount: hallsCount,
+    },
     { name: "Films", href: "#", icon: FilmIcon, amount: filmsCount },
     { name: "Clients", href: "#", icon: UsersIcon, amount: usersCount },
     {
@@ -95,7 +100,7 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col px-8 mt-12 w-screen">
+    <div className="flex flex-col px-8 mt-12 w-5/6 overflow-y-scroll">
       <div className="px-4 sm:px-6">
         <div className="py-6 md:flex md:items-center md:justify-between">
           <div className="min-w-0 flex-1">
