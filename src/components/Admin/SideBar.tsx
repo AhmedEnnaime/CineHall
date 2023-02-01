@@ -27,7 +27,7 @@ const SideBar: React.FC = () => {
         <div className="flex flex-shrink-0 items-center px-4">
           <img className="" src={logo} alt="Company" />
         </div>
-        <nav className="mt-6 flex-1 space-y-12 px-2" aria-label="Sidebar">
+        <nav className="mt-6 flex-1 space-y-12 px-4" aria-label="Sidebar">
           {navigation.map((item) => (
             <Link
               className={classNames(

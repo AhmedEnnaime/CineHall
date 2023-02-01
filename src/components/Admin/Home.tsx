@@ -5,23 +5,95 @@ import {
   CalendarIcon,
 } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Users from "./Users";
+
+type userCount = {
+  Users: { total: number };
+};
+
+type hallCount = {
+  Halls: { total: number };
+};
+
+type filmCount = {
+  Films: { total: number };
+};
+
+type reservationCount = {
+  Reservations: { total: number };
+};
 
 const Home: React.FC = () => {
+  const [usersCount, setUsersCount] = useState<number>();
+  const [hallsCount, setHallsCount] = useState<number>();
+  const [filmsCount, setFilmsCount] = useState<number>();
+  const [reservationsCount, setReservationsCount] = useState<number>();
+  const url = "http://localhost/YouCode/CineHall_api";
+  useEffect(() => {
+    getUserCount();
+    getHallCount();
+    getFilmCount();
+    getReservationCount();
+  }, []);
+
+  const getUserCount = async () => {
+    await axios
+      .get<userCount>(`${url}/users/getUsersCount`)
+      .then((res) => {
+        setUsersCount(res.data.Users.total);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getHallCount = async () => {
+    await axios
+      .get<hallCount>(`${url}/halls/getHallsCount`)
+      .then((res) => {
+        setHallsCount(res.data.Halls.total);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getFilmCount = async () => {
+    await axios
+      .get<filmCount>(`${url}/films/getFilmsCount`)
+      .then((res) => {
+        setFilmsCount(res.data.Films.total);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getReservationCount = async () => {
+    await axios
+      .get<reservationCount>(`${url}/reservations/getReservationsCount`)
+      .then((res) => {
+        setReservationsCount(res.data.Reservations.total);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const cards = [
-    { name: "Halls", href: "#", icon: BuildingLibraryIcon, amount: "20" },
-    { name: "Films", href: "#", icon: FilmIcon, amount: "50" },
-    { name: "Clients", href: "#", icon: UsersIcon, amount: "20" },
-    { name: "Reservations", href: "#", icon: CalendarIcon, amount: "36" },
-  ];
-  const people = [
+    { name: "Halls", href: "#", icon: BuildingLibraryIcon, amount: hallsCount },
+    { name: "Films", href: "#", icon: FilmIcon, amount: filmsCount },
+    { name: "Clients", href: "#", icon: UsersIcon, amount: usersCount },
     {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      email: "lindsay.walton@example.com",
-      role: "Member",
+      name: "Reservations",
+      href: "#",
+      icon: CalendarIcon,
+      amount: reservationsCount,
     },
-    // More people...
   ];
+
   return (
     <div className="flex flex-col px-8 mt-12 w-screen">
       <div className="px-4 sm:px-6">
@@ -53,9 +125,7 @@ const Home: React.FC = () => {
 
       <div className="mt-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-lg font-medium leading-6 text-gray-900">
-            Overview
-          </h2>
+          <h2 className="text-xl font-semibold text-gray-900">Overview</h2>
           <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {/* Card */}
             {cards.map((card) => (
@@ -100,84 +170,7 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <div className="px-4 sm:px-6 lg:px-8 mt-12">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-xl font-semibold text-gray-900">Users</h1>
-          </div>
-        </div>
-        <div className="mt-8 flex flex-col">
-          <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                      >
-                        First name
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Last name
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Email
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Role
-                      </th>
-                      <th
-                        scope="col"
-                        className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                      >
-                        <span className="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
-                    {people.map((person) => (
-                      <tr key={person.email}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          {person.name}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {person.title}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {person.email}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {person.role}
-                        </td>
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit<span className="sr-only">, {person.name}</span>
-                          </a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Users />
     </div>
   );
 };
