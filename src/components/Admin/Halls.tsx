@@ -5,15 +5,30 @@ import axios from "axios";
 import not_found from "../../assets/undraw_no_data_re_kwbl (2).svg";
 import HallModal from "./modals/HallModal";
 import FailedModal from "../helpers/FailedModal";
+import { useNavigate } from "react-router-dom";
 
 const Halls: React.FC = () => {
   const [halls, setHalls] = useState<Hall[]>();
   const url = "http://localhost/YouCode/CineHall_api";
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getHalls();
   }, []);
+
+  const deleteHall = async (id: number) => {
+    await axios
+      .delete(`${url}/halls/deleteHalls/${id}`)
+      .then((res) => {
+        if (res.status === 202) {
+          navigate("/halls");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getHalls = async () => {
     await axios
       .get(`${url}/halls`)
@@ -103,12 +118,14 @@ const Halls: React.FC = () => {
                             </td>
 
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <a
-                                href="#"
+                              <button
                                 className="text-red-500 hover:text-red-600"
+                                onClick={() => {
+                                  deleteHall(hall.id);
+                                }}
                               >
                                 Delete
-                              </a>
+                              </button>
                             </td>
                           </tr>
                         ))
