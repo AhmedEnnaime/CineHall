@@ -4,11 +4,13 @@ import FilmModal from "./modals/FilmModal";
 import not_found from "../../assets/undraw_no_data_re_kwbl (2).svg";
 import axios from "axios";
 import Film from "../../Interfaces/Film";
+import { useNavigate } from "react-router-dom";
 
 const Films: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [films, setFilms] = useState<Film[]>();
   const url = "http://localhost/YouCode/CineHall_api";
+  const navigate = useNavigate();
 
   useEffect(() => {
     getFilms();
@@ -17,22 +19,27 @@ const Films: React.FC = () => {
     await axios
       .get(`${url}/films`)
       .then((res) => {
-        console.log(res.data.Films);
         setFilms(res.data.Films);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  const people = [
-    {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      email: "lindsay.walton@example.com",
-      role: "Member",
-    },
-    // More people...
-  ];
+
+  const deleteFilm = async (id: number) => {
+    await axios
+      .delete(`${url}/films/deleteFilms/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 202) {
+          navigate("/films");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <SideBar />
@@ -130,12 +137,14 @@ const Films: React.FC = () => {
                             </td>
 
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <a
-                                href="#"
+                              <button
                                 className="text-red-500 hover:text-red-600"
+                                onClick={() => {
+                                  deleteFilm(film.id as number);
+                                }}
                               >
                                 Delete
-                              </a>
+                              </button>
                             </td>
                           </tr>
                         ))

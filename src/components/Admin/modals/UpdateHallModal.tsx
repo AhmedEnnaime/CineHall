@@ -1,52 +1,21 @@
+import { ControlUpdateModalProps } from "./ControlModalProps";
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { BuildingLibraryIcon } from "@heroicons/react/24/outline";
-import { ControlModalProps } from "./ControlModalProps";
-import axios from "axios";
-import Hall from "../../../Interfaces/Hall";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
-const HallModal = ({ open, setOpen }: ControlModalProps) => {
+const UpdateHallModal = ({
+  updateOpen,
+  setUpdateOpen,
+  hall,
+}: ControlUpdateModalProps) => {
   const cancelButtonRef = useRef(null);
-  const [inputs, setInputs] = useState<Hall>({
-    name: "",
-    capacity: 0,
-  });
-
-  const navigate = useNavigate();
-  const url = "http://localhost/YouCode/CineHall_api";
-  const { name, capacity } = inputs;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputs((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
-    e.preventDefault();
-    await axios
-      .post<Hall>(`${url}/halls/createHalls`, inputs)
-      .then((res) => {
-        console.log(res.data);
-        if (res.status === 201) {
-          setOpen(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={updateOpen} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={setOpen}
+        onClose={setUpdateOpen}
       >
         <Transition.Child
           as={Fragment}
@@ -98,8 +67,8 @@ const HallModal = ({ open, setOpen }: ControlModalProps) => {
                           <input
                             type="text"
                             name="name"
-                            value={inputs?.name}
-                            onChange={handleChange}
+                            value={hall?.name}
+                            // onChange={handleChange}
                             id="name"
                             className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter hall's name"
@@ -118,8 +87,8 @@ const HallModal = ({ open, setOpen }: ControlModalProps) => {
                           <input
                             type="number"
                             name="capacity"
-                            value={inputs?.capacity}
-                            onChange={handleChange}
+                            value={hall?.capacity}
+                            // onChange={handleChange}
                             id="capacity"
                             className="block w-full px-4 h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter hall's name"
@@ -133,14 +102,14 @@ const HallModal = ({ open, setOpen }: ControlModalProps) => {
                   <button
                     type="submit"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-                    onClick={handleSubmit}
+                    onClick={() => setUpdateOpen(false)}
                   >
-                    Add
+                    Update
                   </button>
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={() => setUpdateOpen(false)}
                     ref={cancelButtonRef}
                   >
                     Cancel
@@ -155,4 +124,4 @@ const HallModal = ({ open, setOpen }: ControlModalProps) => {
   );
 };
 
-export default HallModal;
+export default UpdateHallModal;

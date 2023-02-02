@@ -2,9 +2,67 @@ import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { FilmIcon } from "@heroicons/react/24/outline";
 import { ControlModalProps } from "./ControlModalProps";
+import Film from "../../../Interfaces/Film";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Hall from "../../../Interfaces/Hall";
 
 const FilmModal = ({ open, setOpen }: ControlModalProps) => {
   const cancelButtonRef = useRef(null);
+  const url = "http://localhost/YouCode/CineHall_api";
+  const [halls, setHalls] = useState<Hall[]>();
+  const [inputs, setInputs] = useState<Film>({
+    title: "",
+    date: "",
+    time: "",
+    hall_id: 0,
+  });
+
+  useEffect(() => {
+    getHalls();
+  }, []);
+
+  const { title, date, time, hall_id } = inputs;
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
+    console.log(inputs);
+
+    // e.preventDefault();
+    // await axios
+    //   .post<Film>(`${url}/films/addFilms`, inputs)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     if (res.status === 201) {
+    //       setOpen(false);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  };
+
+  const getHalls = async () => {
+    await axios
+      .get(`${url}/halls`)
+      .then((res) => {
+        console.log(res.data);
+
+        setHalls(res.data.Halls);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -51,7 +109,7 @@ const FilmModal = ({ open, setOpen }: ControlModalProps) => {
                     >
                       Fill films's information
                     </Dialog.Title>
-                    <div className="flex flex-col items-center mt-4">
+                    <form className="flex flex-col items-center mt-4">
                       <div className="text-left w-full">
                         <label
                           htmlFor="title"
@@ -63,6 +121,8 @@ const FilmModal = ({ open, setOpen }: ControlModalProps) => {
                           <input
                             type="text"
                             name="title"
+                            value={inputs.title}
+                            onChange={handleChange}
                             id="title"
                             className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter film's title"
@@ -81,6 +141,8 @@ const FilmModal = ({ open, setOpen }: ControlModalProps) => {
                           <input
                             type="date"
                             name="date"
+                            value={inputs.date}
+                            onChange={handleChange}
                             id="date"
                             className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             placeholder=""
@@ -99,6 +161,8 @@ const FilmModal = ({ open, setOpen }: ControlModalProps) => {
                           <input
                             type="time"
                             name="time"
+                            value={inputs.time}
+                            onChange={handleChange}
                             id="time"
                             className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter time of the film"
@@ -116,23 +180,29 @@ const FilmModal = ({ open, setOpen }: ControlModalProps) => {
                         <select
                           id="hall_id"
                           name="hall_id"
+                          value={inputs.hall_id}
+                          onChange={handleChange}
                           className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                           // defaultValue="Canada"
                         >
-                          <option value="">Select film's hall</option>
-                          <option>Hall 1</option>
-                          <option>Hall 2</option>
-                          <option>Hall 3</option>
+                          <>
+                            <option value="">Select film's hall</option>
+                            {halls
+                              ? halls.map((hall, key) => {
+                                  <option value={hall.id}>{hall.name}</option>;
+                                })
+                              : ""}
+                          </>
                         </select>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                   <button
-                    type="button"
+                    type="submit"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={handleSubmit}
                   >
                     Add
                   </button>

@@ -1,5 +1,5 @@
 interface Hall {
-  id: number;
+  id?: number;
   name: string;
   capacity: number;
 }

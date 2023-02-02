@@ -6,16 +6,31 @@ import not_found from "../../assets/undraw_no_data_re_kwbl (2).svg";
 import HallModal from "./modals/HallModal";
 import FailedModal from "../helpers/FailedModal";
 import { useNavigate } from "react-router-dom";
+import UpdateHallModal from "./modals/updateHallModal";
 
 const Halls: React.FC = () => {
   const [halls, setHalls] = useState<Hall[]>();
+  const [hall, setHall] = useState<Hall>();
   const url = "http://localhost/YouCode/CineHall_api";
   const [open, setOpen] = useState(false);
+  const [updateOpen, setUpdateOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     getHalls();
   }, []);
+
+  const getHall = async (id: number) => {
+    await axios
+      .get(`${url}/halls/getHallById/${id}`)
+      .then((res) => {
+        console.log(res.data.Hall);
+        setHall(res.data.Hall);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const deleteHall = async (id: number) => {
     await axios
@@ -62,6 +77,15 @@ const Halls: React.FC = () => {
             </div>
             {/* {fail ? <FailedModal fail={fail} setFail={setFail} /> : ""} */}
             {open ? <HallModal open={open} setOpen={setOpen} /> : ""}
+            {updateOpen ? (
+              <UpdateHallModal
+                updateOpen={updateOpen}
+                setUpdateOpen={setUpdateOpen}
+                hall={hall}
+              />
+            ) : (
+              ""
+            )}
           </div>
           <div className="mt-8 flex flex-col">
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -109,19 +133,22 @@ const Halls: React.FC = () => {
                               {hall.capacity}
                             </td>
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <a
-                                href="#"
+                              <button
+                                onClick={() => {
+                                  getHall(hall.id as number);
+                                  setUpdateOpen(true);
+                                }}
                                 className="text-indigo-600 hover:text-indigo-900"
                               >
                                 Edit
-                              </a>
+                              </button>
                             </td>
 
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                               <button
                                 className="text-red-500 hover:text-red-600"
                                 onClick={() => {
-                                  deleteHall(hall.id);
+                                  deleteHall(hall.id as number);
                                 }}
                               >
                                 Delete
