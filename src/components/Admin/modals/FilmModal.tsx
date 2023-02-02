@@ -57,7 +57,7 @@ const FilmModal = ({ open, setOpen }: ControlModalProps) => {
                           htmlFor="title"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          title
+                          Title
                         </label>
                         <div className="mt-1">
                           <input
@@ -104,6 +104,26 @@ const FilmModal = ({ open, setOpen }: ControlModalProps) => {
                             placeholder="Enter time of the film"
                           />
                         </div>
+                      </div>
+
+                      <div className="text-left w-full mt-4">
+                        <label
+                          htmlFor="location"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Hall
+                        </label>
+                        <select
+                          id="hall_id"
+                          name="hall_id"
+                          className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          // defaultValue="Canada"
+                        >
+                          <option value="">Select film's hall</option>
+                          <option>Hall 1</option>
+                          <option>Hall 2</option>
+                          <option>Hall 3</option>
+                        </select>
                       </div>
                     </div>
                   </div>

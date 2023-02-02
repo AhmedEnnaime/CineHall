@@ -1,9 +1,29 @@
 import SideBar from "./SideBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FilmModal from "./modals/FilmModal";
+import not_found from "../../assets/undraw_no_data_re_kwbl (2).svg";
+import axios from "axios";
+import Film from "../../Interfaces/Film";
 
 const Films: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const [films, setFilms] = useState<Film[]>();
+  const url = "http://localhost/YouCode/CineHall_api";
+
+  useEffect(() => {
+    getFilms();
+  }, []);
+  const getFilms = async () => {
+    await axios
+      .get(`${url}/films`)
+      .then((res) => {
+        console.log(res.data.Films);
+        setFilms(res.data.Films);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const people = [
     {
       name: "Lindsay Walton",
@@ -64,6 +84,13 @@ const Films: React.FC = () => {
 
                         <th
                           scope="col"
+                          className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        >
+                          Hall
+                        </th>
+
+                        <th
+                          scope="col"
                           className="relative py-3.5 pl-3 pr-4 sm:pr-6"
                         >
                           <span className="sr-only">Edit</span>
@@ -78,17 +105,20 @@ const Films: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
-                      {people?.length ? (
-                        people.map((person, key) => (
+                      {films?.length ? (
+                        films.map((film, key) => (
                           <tr key={key}>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                              {person.name}
+                              {film.title}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {person.email}
+                              {film.date}
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {person.title}
+                              {film.time}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {film.hall}
                             </td>
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                               <a
@@ -110,7 +140,7 @@ const Films: React.FC = () => {
                           </tr>
                         ))
                       ) : (
-                        <img className="" src="" alt="" />
+                        <img className="" src={not_found} alt="" />
                       )}
                     </tbody>
                   </table>

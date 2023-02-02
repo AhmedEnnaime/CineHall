@@ -7,8 +7,15 @@ import HallModal from "./modals/HallModal";
 
 const Halls: React.FC = () => {
   const [halls, setHalls] = useState<Hall[]>();
+  const [inputs, setInputs] = useState<Hall>();
   const url = "http://localhost/YouCode/CineHall_api";
   const [open, setOpen] = useState(false);
+
+  // const handleChange = (e: React.SyntheticEvent): void => {
+  //   const name = e.currentTarget as HTMLInputElement;
+  //   const value = e.target as ;
+  //   setInputs((values) => ({ ...values, [name]: value }));
+  // };
 
   useEffect(() => {
     getHalls();
@@ -17,7 +24,6 @@ const Halls: React.FC = () => {
     await axios
       .get(`${url}/halls`)
       .then((res) => {
-        console.log(res.data.Halls);
         setHalls(res.data.Halls);
       })
       .catch((err) => {
