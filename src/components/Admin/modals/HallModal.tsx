@@ -1,10 +1,42 @@
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { BuildingLibraryIcon } from "@heroicons/react/24/outline";
-import ControlModalProps from "./ControlModalProps";
+import { ControlModalProps } from "./ControlModalProps";
+import axios from "axios";
+import Hall from "../../../Interfaces/Hall";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const HallModal = ({ open, setOpen }: ControlModalProps) => {
   const cancelButtonRef = useRef(null);
+  const [inputs, setInputs] = useState<Hall>();
+  // const [fail, setFail] = useState(false);
+  const navigate = useNavigate();
+  const url = "http://localhost/YouCode/CineHall_api";
+
+  //   const handleChange = (e: React.SyntheticEvent): void => {
+  //   const name = e.target.name;
+  //   const value = e.target.value ;
+  //   setInputs((values) => ({ ...values, [name]: value }));
+  // };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await axios
+      .post<Hall>(`${url}/halls/createHalls`, inputs)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 201) {
+          navigate("/halls");
+        } else {
+          // setFail(true);
+          console.log("failed");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -51,7 +83,10 @@ const HallModal = ({ open, setOpen }: ControlModalProps) => {
                     >
                       Fill hall's information
                     </Dialog.Title>
-                    <div className="flex flex-col items-center mt-4">
+                    <form
+                      onSubmit={handleSubmit}
+                      className="flex flex-col items-center mt-4"
+                    >
                       <div className="text-left w-full">
                         <label
                           htmlFor="name"
@@ -63,6 +98,7 @@ const HallModal = ({ open, setOpen }: ControlModalProps) => {
                           <input
                             type="text"
                             name="name"
+                            value={inputs?.name}
                             id="name"
                             className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter hall's name"
@@ -81,13 +117,14 @@ const HallModal = ({ open, setOpen }: ControlModalProps) => {
                           <input
                             type="number"
                             name="capacity"
+                            value={inputs?.capacity}
                             id="capacity"
                             className="block w-full px-4 h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter hall's name"
                           />
                         </div>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">

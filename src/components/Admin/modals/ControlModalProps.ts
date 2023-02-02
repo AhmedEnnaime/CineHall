@@ -1,6 +1,9 @@
-type ControlModalProps = {
+export type ControlModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default ControlModalProps;
+export type ControlFailModalProps = {
+  fail: boolean;
+  setFail: React.Dispatch<React.SetStateAction<boolean>>;
+};

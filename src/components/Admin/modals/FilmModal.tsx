@@ -1,7 +1,7 @@
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { FilmIcon } from "@heroicons/react/24/outline";
-import ControlModalProps from "./ControlModalProps";
+import { ControlModalProps } from "./ControlModalProps";
 
 const FilmModal = ({ open, setOpen }: ControlModalProps) => {
   const cancelButtonRef = useRef(null);
