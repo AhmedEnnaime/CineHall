@@ -1,7 +1,41 @@
 import logo from "../../assets/logo.png";
-import bg_img from "../../assets/undraw_my_password_re_ydq7.svg";
+import bg_img from "../../assets/img_bg.jpg";
+import axios from "axios";
+import { useState } from "react";
+import { UserLog } from "../../Interfaces/User";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin: React.FC = () => {
+  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState<UserLog>({
+    email: "",
+    password: "",
+  });
+  const url = "http://localhost/YouCode/CineHall_api";
+  const { email, password } = credentials;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCredentials((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const login = async (e: React.FormEvent<EventTarget>) => {
+    e.preventDefault();
+    await axios
+      .post(`${url}/authenticate`, credentials)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.message === "Access allowed") {
+          navigate("/dashboard");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <div className="flex h-screen">
@@ -30,6 +64,7 @@ const AdminLogin: React.FC = () => {
                         name="email"
                         type="email"
                         placeholder="Enter email"
+                        onChange={handleChange}
                         autoComplete="email"
                         required
                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -49,6 +84,7 @@ const AdminLogin: React.FC = () => {
                         id="password"
                         name="password"
                         type="password"
+                        onChange={handleChange}
                         placeholder="Enter password"
                         autoComplete="current-password"
                         required
@@ -61,6 +97,7 @@ const AdminLogin: React.FC = () => {
                     <button
                       type="submit"
                       className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={login}
                     >
                       Sign in
                     </button>
@@ -83,7 +120,7 @@ const AdminLogin: React.FC = () => {
         <div className="relative hidden w-0 flex-1 lg:block">
           <img
             className="absolute inset-0 h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+            src={bg_img}
             alt=""
           />
         </div>

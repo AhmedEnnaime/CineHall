@@ -1,5 +1,5 @@
-interface User {
-  id: number;
+export interface User {
+  id?: number;
   fname: string;
   lname: string;
   email: string;
@@ -8,4 +8,7 @@ interface User {
   password?: string | null;
 }
 
-export default User;
+export interface UserLog {
+  email: string;
+  password: string;
+}
