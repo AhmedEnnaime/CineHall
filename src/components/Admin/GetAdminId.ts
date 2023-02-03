@@ -2,7 +2,7 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 const cookie = cookies.get("jwt");
-const parseJwt = () => {
+const ParseJwt = () => {
   if (!cookie) {
     return;
   }
@@ -10,3 +10,5 @@ const parseJwt = () => {
   const base64 = base64Url.replace("-", "+").replace("_", "/");
   return JSON.parse(window.atob(base64));
 };
+
+export default ParseJwt;

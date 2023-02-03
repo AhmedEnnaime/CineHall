@@ -1,10 +1,12 @@
-import User from "../../Interfaces/User";
+import { User } from "../../Interfaces/User";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Users: React.FC = () => {
   const [users, setUsers] = useState<User[]>();
   const url = "http://localhost/YouCode/CineHall_api";
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUsers();
@@ -14,6 +16,19 @@ const Users: React.FC = () => {
       .get(`${url}/users`)
       .then((res) => {
         setUsers(res.data.Users);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deleteUser = async (id: number) => {
+    await axios
+      .delete(`${url}/users/deleteUsers/${id}`)
+      .then((res) => {
+        if (res.status === 202) {
+          navigate("/dashboard");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -91,12 +106,14 @@ const Users: React.FC = () => {
                           </a>
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <a
-                            href="#"
+                          <button
+                            onClick={() => {
+                              deleteUser(user.id as number);
+                            }}
                             className="text-red-500 hover:text-red-600"
                           >
                             Delete
-                          </a>
+                          </button>
                         </td>
                       </tr>
                     ))}
