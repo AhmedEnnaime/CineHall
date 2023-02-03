@@ -12,10 +12,12 @@ const Halls: React.FC = () => {
   const [hall, setHall] = useState<Hall>();
   const url = "http://localhost/YouCode/CineHall_api";
   const [open, setOpen] = useState(false);
-  const [updateOpen, setUpdateOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!sessionStorage.getItem("isLoggedIn")) {
+      navigate("/admin");
+    }
     getHalls();
   }, []);
 
@@ -147,7 +149,11 @@ const Halls: React.FC = () => {
                           </tr>
                         ))
                       ) : (
-                        <img className="" src={not_found} alt="" />
+                        <tr>
+                          <td>
+                            <img className="" src={not_found} alt="" />
+                          </td>
+                        </tr>
                       )}
                     </tbody>
                   </table>

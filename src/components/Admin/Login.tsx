@@ -4,9 +4,12 @@ import axios from "axios";
 import { useState } from "react";
 import { UserLog } from "../../Interfaces/User";
 import { useNavigate } from "react-router-dom";
+import useSessionStorage from "../../Custom hooks/useSessionStorage";
+import { useEffect } from "react";
 
 const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useSessionStorage("isLoggedIn", "");
   const [credentials, setCredentials] = useState<UserLog>({
     email: "",
     password: "",
@@ -14,6 +17,11 @@ const AdminLogin: React.FC = () => {
   const url = "http://localhost/YouCode/CineHall_api";
   const { email, password } = credentials;
 
+  useEffect(() => {
+    if (sessionStorage.getItem("isLoggedIn")) {
+      navigate("/dashboard");
+    }
+  }, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials((prevState) => ({
       ...prevState,
@@ -28,7 +36,14 @@ const AdminLogin: React.FC = () => {
       .then((res) => {
         console.log(res.data);
         if (res.data.message === "Access allowed") {
-          navigate("/dashboard");
+          if (window.sessionStorage["isLoggedIn"]) {
+            window.sessionStorage.setItem("isLoggedIn", "");
+            setLoggedIn("Authenticated");
+            navigate("/dashboard");
+          } else {
+            setLoggedIn("Authenticated");
+            navigate("/dashboard");
+          }
         }
       })
       .catch((err) => {

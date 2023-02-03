@@ -14,6 +14,9 @@ const Films: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!sessionStorage.getItem("isLoggedIn")) {
+      navigate("/admin");
+    }
     getFilms();
   }, []);
 
@@ -165,7 +168,11 @@ const Films: React.FC = () => {
                           </tr>
                         ))
                       ) : (
-                        <img className="" src={not_found} alt="" />
+                        <tr>
+                          <td>
+                            <img className="" src={not_found} alt="" />
+                          </td>
+                        </tr>
                       )}
                     </tbody>
                   </table>

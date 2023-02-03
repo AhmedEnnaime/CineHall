@@ -7,20 +7,45 @@ import {
   BuildingLibraryIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-
-const navigation = [
-  { name: "Home", icon: HomeIcon, href: "/dashboard" },
-  { name: "Halls", icon: BuildingLibraryIcon, href: "/halls" },
-  { name: "Films", icon: FilmIcon, href: "/films" },
-  { name: "Reservations", icon: CalendarIcon, href: "#" },
-  { name: "Logout", icon: ArrowRightOnRectangleIcon, href: "#" },
-];
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
 const SideBar: React.FC = () => {
+  const url = "http://localhost/YouCode/CineHall_api";
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    await axios
+      .post(`${url}/authenticate/logout`, { withCredentials: true })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data === "logged out successfully") {
+          sessionStorage.removeItem("isLoggedIn");
+          sessionStorage.clear();
+          navigate("/admin");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const navigation = [
+    { name: "Home", icon: HomeIcon, href: "/dashboard" },
+    { name: "Halls", icon: BuildingLibraryIcon, href: "/halls" },
+    { name: "Films", icon: FilmIcon, href: "/films" },
+    { name: "Reservations", icon: CalendarIcon, href: "#" },
+    {
+      name: "Logout",
+      icon: ArrowRightOnRectangleIcon,
+      href: "#",
+      onclick: { logout },
+    },
+  ];
   return (
     <div className="flex h-screen flex-1 flex-col bg-indigo-700 w-1/6 fixed">
       <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
@@ -36,6 +61,7 @@ const SideBar: React.FC = () => {
               )}
               key={item.name}
               to={item.href}
+              // onClick={item.onclick}
             >
               <item.icon
                 className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
