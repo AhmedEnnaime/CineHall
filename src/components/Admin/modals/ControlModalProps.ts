@@ -1,8 +1,10 @@
 import Hall from "../../../Interfaces/Hall";
+import Film from "../../../Interfaces/Film";
 
 export type ControlModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  hall?: Hall;
 };
 
 export type ControlFailModalProps = {
@@ -10,8 +12,8 @@ export type ControlFailModalProps = {
   setFail: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export type ControlUpdateModalProps = {
-  updateOpen: boolean;
-  setUpdateOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  hall: Hall | undefined;
+export type ControlFilmModalProps = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  film?: Film | undefined;
 };

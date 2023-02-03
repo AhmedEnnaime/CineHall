@@ -1,13 +1,13 @@
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { FilmIcon } from "@heroicons/react/24/outline";
-import { ControlModalProps } from "./ControlModalProps";
 import Film from "../../../Interfaces/Film";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Hall from "../../../Interfaces/Hall";
+import { ControlFilmModalProps } from "./ControlModalProps";
 
-const FilmModal = ({ open, setOpen }: ControlModalProps) => {
+const FilmModal = ({ open, setOpen, film }: ControlFilmModalProps) => {
   const cancelButtonRef = useRef(null);
   const url = "http://localhost/YouCode/CineHall_api";
   const [halls, setHalls] = useState<Hall[]>();
@@ -56,7 +56,6 @@ const FilmModal = ({ open, setOpen }: ControlModalProps) => {
       .get(`${url}/halls`)
       .then((res) => {
         console.log(res.data);
-
         setHalls(res.data.Halls);
       })
       .catch((err) => {
@@ -109,103 +108,208 @@ const FilmModal = ({ open, setOpen }: ControlModalProps) => {
                     >
                       Fill films's information
                     </Dialog.Title>
-                    <form className="flex flex-col items-center mt-4">
-                      <div className="text-left w-full">
-                        <label
-                          htmlFor="title"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Title
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="text"
-                            name="title"
-                            value={inputs.title}
-                            onChange={handleChange}
-                            id="title"
-                            className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter film's title"
-                          />
+                    {film ? (
+                      <form className="flex flex-col items-center mt-4">
+                        <div className="text-left w-full">
+                          <label
+                            htmlFor="title"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Title
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="text"
+                              name="title"
+                              value={film.title}
+                              onChange={handleChange}
+                              id="title"
+                              className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder="Enter film's title"
+                            />
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="text-left w-full mt-4">
-                        <label
-                          htmlFor="date"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Date
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="date"
-                            name="date"
-                            value={inputs.date}
-                            onChange={handleChange}
-                            id="date"
-                            className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder=""
-                          />
+                        <div className="text-left w-full mt-4">
+                          <label
+                            htmlFor="date"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Date
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="date"
+                              name="date"
+                              value={film.date}
+                              onChange={handleChange}
+                              id="date"
+                              className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder=""
+                            />
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="text-left w-full mt-4">
-                        <label
-                          htmlFor="date"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Time
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="time"
-                            name="time"
-                            value={inputs.time}
+                        <div className="text-left w-full mt-4">
+                          <label
+                            htmlFor="date"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Time
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="time"
+                              name="time"
+                              value={film.time}
+                              onChange={handleChange}
+                              id="time"
+                              className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder="Enter time of the film"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="text-left w-full mt-4">
+                          <label
+                            htmlFor="location"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Hall
+                          </label>
+                          <select
+                            id="hall_id"
+                            name="hall_id"
+                            value={film.hall_id}
                             onChange={handleChange}
-                            id="time"
                             className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter time of the film"
-                          />
+                            // defaultValue="Canada"
+                          >
+                            <>
+                              <option value="">Select film's hall</option>
+                              {halls
+                                ? halls.forEach((hall, key) => {
+                                    <option value={hall.id}>
+                                      {hall.name}
+                                    </option>;
+                                  })
+                                : ""}
+                            </>
+                          </select>
                         </div>
-                      </div>
+                      </form>
+                    ) : (
+                      <form className="flex flex-col items-center mt-4">
+                        <div className="text-left w-full">
+                          <label
+                            htmlFor="title"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Title
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="text"
+                              name="title"
+                              value={inputs.title}
+                              onChange={handleChange}
+                              id="title"
+                              className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder="Enter film's title"
+                            />
+                          </div>
+                        </div>
 
-                      <div className="text-left w-full mt-4">
-                        <label
-                          htmlFor="location"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Hall
-                        </label>
-                        <select
-                          id="hall_id"
-                          name="hall_id"
-                          value={inputs.hall_id}
-                          onChange={handleChange}
-                          className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                          // defaultValue="Canada"
-                        >
-                          <>
-                            <option value="">Select film's hall</option>
-                            {halls
-                              ? halls.map((hall, key) => {
-                                  <option value={hall.id}>{hall.name}</option>;
-                                })
-                              : ""}
-                          </>
-                        </select>
-                      </div>
-                    </form>
+                        <div className="text-left w-full mt-4">
+                          <label
+                            htmlFor="date"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Date
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="date"
+                              name="date"
+                              value={inputs.date}
+                              onChange={handleChange}
+                              id="date"
+                              className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder=""
+                            />
+                          </div>
+                        </div>
+
+                        <div className="text-left w-full mt-4">
+                          <label
+                            htmlFor="date"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Time
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="time"
+                              name="time"
+                              value={inputs.time}
+                              onChange={handleChange}
+                              id="time"
+                              className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder="Enter time of the film"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="text-left w-full mt-4">
+                          <label
+                            htmlFor="location"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Hall
+                          </label>
+                          <select
+                            id="hall_id"
+                            name="hall_id"
+                            value={inputs.hall_id}
+                            onChange={handleChange}
+                            className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            // defaultValue="Canada"
+                          >
+                            <>
+                              <option value="">Select film's hall</option>
+                              {halls
+                                ? halls.forEach((hall, key) => {
+                                    <option value={hall.id}>
+                                      {hall.name}
+                                    </option>;
+                                  })
+                                : ""}
+                            </>
+                          </select>
+                        </div>
+                      </form>
+                    )}
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                  <button
-                    type="submit"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-                    onClick={handleSubmit}
-                  >
-                    Add
-                  </button>
+                  {film ? (
+                    <button
+                      type="submit"
+                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+                      // onClick={handleSubmit}
+                    >
+                      Update
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+                      onClick={handleSubmit}
+                    >
+                      Add
+                    </button>
+                  )}
+
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"

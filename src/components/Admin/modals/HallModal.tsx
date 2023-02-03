@@ -4,17 +4,15 @@ import { BuildingLibraryIcon } from "@heroicons/react/24/outline";
 import { ControlModalProps } from "./ControlModalProps";
 import axios from "axios";
 import Hall from "../../../Interfaces/Hall";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const HallModal = ({ open, setOpen }: ControlModalProps) => {
+const HallModal = ({ open, setOpen, hall }: ControlModalProps) => {
   const cancelButtonRef = useRef(null);
   const [inputs, setInputs] = useState<Hall>({
     name: "",
     capacity: 0,
   });
 
-  const navigate = useNavigate();
   const url = "http://localhost/YouCode/CineHall_api";
   const { name, capacity } = inputs;
 
@@ -25,13 +23,29 @@ const HallModal = ({ open, setOpen }: ControlModalProps) => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
+  const handleAddSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
     await axios
       .post<Hall>(`${url}/halls/createHalls`, inputs)
       .then((res) => {
-        console.log(res.data);
         if (res.status === 201) {
+          setOpen(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleUpdateSubmit = async (
+    e: React.FormEvent<EventTarget>,
+    id: number
+  ) => {
+    e.preventDefault();
+    await axios
+      .post<Hall>(`${url}/halls/updateHall/${id}`, inputs)
+      .then((res) => {
+        if (res.status === 200) {
           setOpen(false);
         }
       })
@@ -86,57 +100,114 @@ const HallModal = ({ open, setOpen }: ControlModalProps) => {
                     >
                       Fill hall's information
                     </Dialog.Title>
-                    <form className="flex flex-col items-center mt-4">
-                      <div className="text-left w-full">
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Name
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="text"
-                            name="name"
-                            value={inputs?.name}
-                            onChange={handleChange}
-                            id="name"
-                            className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter hall's name"
-                          />
+                    {!hall ? (
+                      <form className="flex flex-col items-center mt-4">
+                        <div className="text-left w-full">
+                          <label
+                            htmlFor="name"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Name
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="text"
+                              name="name"
+                              value={inputs?.name}
+                              onChange={handleChange}
+                              id="name"
+                              className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder="Enter hall's name"
+                            />
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="text-left w-full mt-4">
-                        <label
-                          htmlFor="capacity"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Capacity
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="number"
-                            name="capacity"
-                            value={inputs?.capacity}
-                            onChange={handleChange}
-                            id="capacity"
-                            className="block w-full px-4 h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter hall's name"
-                          />
+                        <div className="text-left w-full mt-4">
+                          <label
+                            htmlFor="capacity"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Capacity
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="number"
+                              name="capacity"
+                              value={inputs?.capacity}
+                              onChange={handleChange}
+                              id="capacity"
+                              className="block w-full px-4 h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder="Enter hall's name"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    </form>
+                      </form>
+                    ) : (
+                      <form className="flex flex-col items-center mt-4">
+                        <div className="text-left w-full">
+                          <label
+                            htmlFor="name"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Name
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="text"
+                              name="name"
+                              value={hall.name}
+                              onChange={handleChange}
+                              id="name"
+                              className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder="Enter hall's name"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="text-left w-full mt-4">
+                          <label
+                            htmlFor="capacity"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Capacity
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="number"
+                              name="capacity"
+                              value={hall.capacity}
+                              onChange={handleChange}
+                              id="capacity"
+                              className="block w-full px-4 h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              placeholder="Enter hall's name"
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    )}
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                  <button
-                    type="submit"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-                    onClick={handleSubmit}
-                  >
-                    Add
-                  </button>
+                  {hall ? (
+                    <button
+                      type="submit"
+                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+                      onClick={(e) => {
+                        handleUpdateSubmit(e, hall.id as number);
+                      }}
+                    >
+                      Update
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+                      onClick={handleAddSubmit}
+                    >
+                      Add
+                    </button>
+                  )}
+
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"

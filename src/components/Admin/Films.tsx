@@ -9,12 +9,25 @@ import { useNavigate } from "react-router-dom";
 const Films: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [films, setFilms] = useState<Film[]>();
+  const [film, setFilm] = useState<Film>();
   const url = "http://localhost/YouCode/CineHall_api";
   const navigate = useNavigate();
 
   useEffect(() => {
     getFilms();
   }, []);
+
+  const getFilm = async (id: number) => {
+    await axios
+      .get(`${url}/films/getFilmById/${id}`)
+      .then((res) => {
+        setFilm(res.data.Film);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const getFilms = async () => {
     await axios
       .get(`${url}/films`)
@@ -53,6 +66,7 @@ const Films: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
+                  setFilm(undefined);
                   setOpen(true);
                 }}
                 className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
@@ -60,7 +74,6 @@ const Films: React.FC = () => {
                 Add film
               </button>
             </div>
-            {open ? <FilmModal open={open} setOpen={setOpen} /> : ""}
           </div>
           <div className="mt-8 flex flex-col">
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -128,12 +141,15 @@ const Films: React.FC = () => {
                               {film.hall}
                             </td>
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <a
-                                href="#"
+                              <button
+                                onClick={() => {
+                                  getFilm(film.id as number);
+                                  setOpen(true);
+                                }}
                                 className="text-indigo-600 hover:text-indigo-900"
                               >
                                 Edit
-                              </a>
+                              </button>
                             </td>
 
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
@@ -153,6 +169,11 @@ const Films: React.FC = () => {
                       )}
                     </tbody>
                   </table>
+                  {open ? (
+                    <FilmModal open={open} setOpen={setOpen} film={film} />
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>
