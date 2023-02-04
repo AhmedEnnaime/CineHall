@@ -9,6 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../Interfaces/User";
+import { useState, useEffect } from "react";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -17,10 +19,16 @@ function classNames(...classes: any) {
 const SideBar: React.FC = () => {
   const url = "http://localhost/YouCode/CineHall_api";
   const navigate = useNavigate();
+  const [admin, setAdmin] = useState<User>();
+  const adminId = sessionStorage.getItem("adminId");
+
+  useEffect(() => {
+    getLoggedAdmin();
+  }, []);
 
   const logout = async () => {
     await axios
-      .post(`${url}/authenticate/logout`, { withCredentials: true })
+      .post(`${url}/authenticate/logout`)
       .then((res) => {
         console.log(res.data);
         if (res.data === "logged out successfully") {
@@ -28,6 +36,18 @@ const SideBar: React.FC = () => {
           sessionStorage.clear();
           navigate("/admin");
         }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getLoggedAdmin = async () => {
+    await axios
+      .get(`${url}/users/getLoggedInAdmin/${adminId}`)
+      .then((res) => {
+        console.log(res.data);
+        setAdmin(res.data.Admin);
       })
       .catch((err) => {
         console.log(err);
@@ -61,7 +81,9 @@ const SideBar: React.FC = () => {
               )}
               key={item.name}
               to={item.href}
-              // onClick={item.onclick}
+              onClick={() => {
+                item.onclick;
+              }}
             >
               <item.icon
                 className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
@@ -84,7 +106,9 @@ const SideBar: React.FC = () => {
               />
             </div>
             <div className="ml-3">
-              <p className="text-sm font-medium text-white">Ahmed Ennaime</p>
+              <p className="text-sm font-medium text-white">
+                {admin?.fname} {admin?.lname}
+              </p>
               <p className="text-xs font-medium text-indigo-200 group-hover:text-white">
                 View profile
               </p>

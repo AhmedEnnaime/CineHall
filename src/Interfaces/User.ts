@@ -4,7 +4,7 @@ export interface User {
   lname: string;
   email: string;
   role: number;
-  key: string;
+  key: string | null;
   password?: string | null;
 }
 

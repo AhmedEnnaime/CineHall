@@ -3,6 +3,7 @@ import Dashboard from "./components/Admin/Dashboard";
 import AdminLogin from "./components/Admin/Login";
 import Halls from "./components/Admin/Halls";
 import Films from "./components/Admin/Films";
+import Landing from "./components/Client/Landing";
 import "./index.css";
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/"></Route>
+          <Route path="/" element={<Landing />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/admin" element={<AdminLogin />}></Route>
           <Route path="/halls" element={<Halls />}></Route>

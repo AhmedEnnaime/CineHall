@@ -10,6 +10,7 @@ import { useEffect } from "react";
 const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useSessionStorage("isLoggedIn", "");
+  const [adminId, setAdminId] = useSessionStorage("adminId", "");
   const [credentials, setCredentials] = useState<UserLog>({
     email: "",
     password: "",
@@ -36,12 +37,18 @@ const AdminLogin: React.FC = () => {
       .then((res) => {
         console.log(res.data);
         if (res.data.message === "Access allowed") {
-          if (window.sessionStorage["isLoggedIn"]) {
+          if (
+            window.sessionStorage["isLoggedIn"] ||
+            window.sessionStorage["adminId"]
+          ) {
             window.sessionStorage.setItem("isLoggedIn", "");
+            window.sessionStorage.setItem("adminId", "");
             setLoggedIn("Authenticated");
+            setAdminId(res.data.adminId);
             navigate("/dashboard");
           } else {
             setLoggedIn("Authenticated");
+            setAdminId(res.data.adminId);
             navigate("/dashboard");
           }
         }
