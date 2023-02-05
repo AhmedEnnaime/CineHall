@@ -1,6 +1,9 @@
 import Navbar from "./Navbar";
+import { useState } from "react";
+import LoginModal from "./modals/LoginModal";
 
 const Landing: React.FC = () => {
+  const [open, setOpen] = useState(false);
   return (
     <>
       <Navbar />
@@ -24,12 +27,16 @@ const Landing: React.FC = () => {
           </button>
           <button
             type="button"
+            onClick={() => {
+              setOpen(true);
+            }}
             className="font-inter font-medium text-sm leading-[17px] text-cool-gray-600 bg-white-100 rounded-full border px-5 py-4 border-cool-gray-200 flex flex-row flex-nowrap items-center gap-2.5 dark:text-cool-gray-600 dark:bg-primary-dark"
           >
             View my reservations
           </button>
         </div>
       </div>
+      {open ? <LoginModal open={open} setOpen={setOpen} /> : ""}
     </>
   );
 };
