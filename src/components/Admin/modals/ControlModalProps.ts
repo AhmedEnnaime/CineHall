@@ -17,3 +17,7 @@ export type ControlFilmModalProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   film?: Film | undefined;
 };
+
+export type ControlBookFormProps = {
+  id: number;
+};

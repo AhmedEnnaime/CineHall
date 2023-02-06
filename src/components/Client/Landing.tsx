@@ -2,7 +2,8 @@ import Navbar from "./Navbar";
 import { useState } from "react";
 import LoginModal from "./modals/LoginModal";
 import { Swiper, SwiperSlide } from "swiper/react";
-import img1 from "../../assets/pexels-tima-miroshnichenko-7991579.jpg";
+import { Link } from "react-router-dom";
+import Films from "./Films";
 
 // Import Swiper styles
 import "swiper/css";
@@ -46,12 +47,12 @@ const Landing: React.FC = () => {
                 Step inside and be transported to a world of your choosing
               </h3>
               <div className="flex flex-row gap-5">
-                <button
-                  type="button"
+                <Link
+                  to={"/availableFilms"}
                   className="font-inter font-medium text-sm leading-[17px] text-white-100 bg-cool-gray-900 rounded-full px-5 py-4 border-black border-2 dark:text-[#0F172A] dark:bg-white-100"
                 >
                   Browse Films
-                </button>
+                </Link>
                 <button
                   type="button"
                   onClick={() => {
