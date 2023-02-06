@@ -13,10 +13,11 @@ const Navbar: React.FC = () => {
     { name: "Home", href: "/" },
     { name: "Films", href: "#" },
     { name: "About us", href: "#" },
+    { name: "Contact", href: "#" },
   ];
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-200">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -52,7 +53,7 @@ const Navbar: React.FC = () => {
                         key={item.name}
                         to={item.href}
                         className={classNames(
-                          "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "text-black hover:bg-gray-700 hover:text-white",
                           "px-3 py-2 rounded-md text-sm font-medium"
                         )}
                       >
