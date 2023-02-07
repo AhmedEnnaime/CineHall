@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import FilmContext from "../../context/FilmContext";
+
 const BookForm: React.FC = () => {
+  const [film] = useContext(FilmContext);
   return (
     <div className="mt-10 sm:mt-0">
       <div className="md:grid md:grid-cols-3 md:gap-6 mt-24 px-4 w-3/4">
@@ -59,7 +63,22 @@ const BookForm: React.FC = () => {
                     />
                   </div>
 
-                  <div></div>
+                  <div className="col-span-6">
+                    <label
+                      htmlFor="seats"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Selected seats
+                    </label>
+                    <input
+                      type="text"
+                      name="num"
+                      id="seats"
+                      autoComplete="seats"
+                      className="mt-1 block w-full rounded-md border-gray-400 border-2 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      placeholder="Selected seats"
+                    />
+                  </div>
 
                   <div className="col-span-6 sm:col-span-6 lg:col-span-2">
                     <label
@@ -72,6 +91,8 @@ const BookForm: React.FC = () => {
                       type="date"
                       name="date"
                       id="date"
+                      value={film?.date}
+                      readOnly
                       className="mt-1 block w-full rounded-md border-gray-400 border-2 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
                   </div>
@@ -86,6 +107,8 @@ const BookForm: React.FC = () => {
                     <input
                       type="time"
                       name="time"
+                      value={film?.time}
+                      readOnly
                       id="time"
                       autoComplete="address-level1"
                       className="mt-1 block w-full rounded-md border-gray-400 border-2 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -103,6 +126,8 @@ const BookForm: React.FC = () => {
                       type="text"
                       name="hall"
                       id="hall"
+                      value={film?.hall}
+                      readOnly
                       autoComplete="hall"
                       className="mt-1 block w-full rounded-md border-gray-400 border-2 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />

@@ -3,6 +3,9 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
+import useSessionStorage from "../../Custom hooks/useSessionStorage";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -15,6 +18,27 @@ const Navbar: React.FC = () => {
     { name: "About us", href: "#" },
     { name: "Contact", href: "#" },
   ];
+  const [userId, setUserId] = useSessionStorage("userId", "");
+  const url = "http://localhost/YouCode/CineHall_api";
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    await axios
+      .post(`${url}/authenticate/logout`)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data === "logged out successfully") {
+          sessionStorage.removeItem("userId");
+          sessionStorage.removeItem("adminId");
+          sessionStorage.removeItem("isLoggedIn");
+          sessionStorage.clear();
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Disclosure as="nav" className="bg-gray-200">
@@ -65,7 +89,7 @@ const Navbar: React.FC = () => {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* Profile dropdown */}
-                {!sessionStorage.getItem("clientId") ? (
+                {sessionStorage.getItem("userId") ? (
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -115,15 +139,15 @@ const Navbar: React.FC = () => {
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="#"
+                            <button
+                              onClick={logout}
                               className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                active ? "bg-gray-100 w-full" : "",
+                                "flex justify-start w-full px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Sign out
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       </Menu.Items>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import LoginModal from "./modals/LoginModal";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
-import Films from "./Films";
+import { useNavigate } from "react-router-dom";
 
 // Import Swiper styles
 import "swiper/css";
@@ -15,6 +15,7 @@ import { Autoplay, Pagination, Navigation } from "swiper";
 
 const Landing: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <>
       <Navbar />
@@ -56,7 +57,9 @@ const Landing: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    setOpen(true);
+                    sessionStorage.getItem("userId")
+                      ? navigate("/")
+                      : setOpen(true);
                   }}
                   className="font-inter font-medium text-sm leading-[17px] text-cool-gray-600 bg-white-100 rounded-full border px-5 py-4 border-cool-gray-200 flex flex-row flex-nowrap items-center gap-2.5 dark:text-cool-gray-600 dark:bg-primary-dark"
                 >
@@ -80,16 +83,18 @@ const Landing: React.FC = () => {
                 Step inside and be transported to a world of your choosing
               </h3>
               <div className="flex flex-row gap-5">
-                <button
-                  type="button"
+                <Link
+                  to={"/availableFilms"}
                   className="font-inter font-medium text-sm leading-[17px] text-white-100 bg-cool-gray-900 rounded-full px-5 py-4 border-black border-2 dark:text-[#0F172A] dark:bg-white-100"
                 >
                   Browse Films
-                </button>
+                </Link>
                 <button
                   type="button"
                   onClick={() => {
-                    setOpen(true);
+                    sessionStorage.getItem("userId")
+                      ? navigate("/")
+                      : setOpen(true);
                   }}
                   className="font-inter font-medium text-sm leading-[17px] text-cool-gray-600 bg-white-100 rounded-full border px-5 py-4 border-cool-gray-200 flex flex-row flex-nowrap items-center gap-2.5 dark:text-cool-gray-600 dark:bg-primary-dark"
                 >
@@ -113,16 +118,18 @@ const Landing: React.FC = () => {
                 Step inside and be transported to a world of your choosing
               </h3>
               <div className="flex flex-row gap-5">
-                <button
-                  type="button"
+                <Link
+                  to={"/availableFilms"}
                   className="font-inter font-medium text-sm leading-[17px] text-white-100 bg-cool-gray-900 rounded-full px-5 py-4 border-black border-2 dark:text-[#0F172A] dark:bg-white-100"
                 >
                   Browse Films
-                </button>
+                </Link>
                 <button
                   type="button"
                   onClick={() => {
-                    setOpen(true);
+                    sessionStorage.getItem("userId")
+                      ? navigate("/")
+                      : setOpen(true);
                   }}
                   className="font-inter font-medium text-sm leading-[17px] text-cool-gray-600 bg-white-100 rounded-full border px-5 py-4 border-cool-gray-200 flex flex-row flex-nowrap items-center gap-2.5 dark:text-cool-gray-600 dark:bg-primary-dark"
                 >
