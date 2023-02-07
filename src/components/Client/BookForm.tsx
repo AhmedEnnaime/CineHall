@@ -63,22 +63,7 @@ const BookForm: React.FC = () => {
                     />
                   </div>
 
-                  <div className="col-span-6">
-                    <label
-                      htmlFor="seats"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Selected seats
-                    </label>
-                    <input
-                      type="text"
-                      name="num"
-                      id="seats"
-                      autoComplete="seats"
-                      className="mt-1 block w-full rounded-md border-gray-400 border-2 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                      placeholder="Selected seats"
-                    />
-                  </div>
+                  <div></div>
 
                   <div className="col-span-6 sm:col-span-6 lg:col-span-2">
                     <label

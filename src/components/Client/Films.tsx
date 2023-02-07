@@ -20,7 +20,6 @@ const Films: React.FC = () => {
     await axios
       .get(`${url}/films`)
       .then((res) => {
-        console.log(res.data);
         setFilms(res.data.Films);
       })
       .catch((err) => {
