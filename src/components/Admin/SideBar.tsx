@@ -57,7 +57,7 @@ const SideBar: React.FC = () => {
     { name: "Home", icon: HomeIcon, href: "/dashboard" },
     { name: "Halls", icon: BuildingLibraryIcon, href: "/halls" },
     { name: "Films", icon: FilmIcon, href: "/films" },
-    { name: "Reservations", icon: CalendarIcon, href: "#" },
+    { name: "Reservations", icon: CalendarIcon, href: "/reservations" },
     {
       name: "Logout",
       icon: ArrowRightOnRectangleIcon,
