@@ -8,6 +8,7 @@ interface IReservation {
   hall_name?: string;
   first_name?: string;
   last_name?: string;
+  seat_num?: number;
 }
 
 export default IReservation;

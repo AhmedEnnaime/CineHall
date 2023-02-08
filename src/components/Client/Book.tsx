@@ -11,7 +11,7 @@ const Book: React.FC = () => {
   const [film] = useContext(FilmContext);
   const [hall, setHall] = useState<Hall>();
   const [checked, setChecked] = useState("text-black");
-  const [reservations, setReservations] = useState<IReservation>();
+  const [reservations, setReservations] = useState<IReservation[]>();
   const url = "http://localhost/YouCode/CineHall_api";
 
   useEffect(() => {
@@ -43,11 +43,11 @@ const Book: React.FC = () => {
     return num;
   };
 
-  // getSelectedSeats();
   const getReservations = async () => {
     await axios
-      .get(`${url}/reservations/getReservations`)
+      .get(`${url}/reservations/getReservations/${film?.id}`)
       .then((res) => {
+        console.log(res.data.Reservations);
         setReservations(res.data.Reservations);
       })
       .catch((err) => {
@@ -65,6 +65,39 @@ const Book: React.FC = () => {
         console.log(err);
       });
   };
+
+  const getReservedSeats = (
+    seat: number,
+    e: React.ChangeEvent<HTMLButtonElement>
+  ) => {
+    reservations?.map((reservation, key) => {
+      if (reservation.seat_num === seat) {
+        e.currentTarget.disabled = true;
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(" ");
+  }
+
+  // const getReservedSeats = () => {
+  //   const chairs = document.querySelectorAll(".seat");
+  //   getSelectedSeats().map((seat, key) => {
+  //     reservations?.map((reservation, key) => {
+  //       if (seat === reservation.seat_num) {
+  //         for (let chair of chairs) {
+  //           chair.classList.add("text-red-500");
+  //           // chair.setAttribute("disabled", true);
+  //         }
+  //       }
+  //     });
+  //   });
+  // };
+
   return (
     <>
       <Navbar />
@@ -78,13 +111,19 @@ const Book: React.FC = () => {
                     key={key}
                     className="flex flex-col cursor-pointer items-center gap-y-2 w-24"
                   >
-                    <MdChair
-                      className="text-4xl seat"
+                    <button
+                      className={classNames(
+                        getReservedSeats(seat, e)
+                          ? "text-4xl text-red-500 seat"
+                          : "text-4xl seat"
+                      )}
                       onClick={(e) => {
                         e.currentTarget.classList.toggle("text-green-500");
-                        getSelectedSeats();
                       }}
-                    />
+                    >
+                      <MdChair />
+                    </button>
+
                     <p>{seat}</p>
                   </div>
                 ))
