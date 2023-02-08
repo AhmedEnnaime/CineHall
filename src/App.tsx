@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import FilmContext from "./context/FilmContext";
 import Film from "./Interfaces/Film";
 import Reservations from "./components/Admin/Reservations";
+import MyReservations from "./components/Client/MyReservations";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,6 +39,10 @@ function App() {
               <Route path="/reservations" element={<Reservations />}></Route>
               <Route path="/availableFilms" element={<FilmsClient />}></Route>
               <Route path="/book" element={<Book />}></Route>
+              <Route
+                path="/myReservations"
+                element={<MyReservations />}
+              ></Route>
             </Routes>
           </QueryClientProvider>
         </FilmContext.Provider>

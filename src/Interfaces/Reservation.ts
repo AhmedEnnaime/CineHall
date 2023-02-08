@@ -6,8 +6,9 @@ interface IReservation {
   reservation_date?: string;
   reservation_time?: string;
   hall_name?: string;
-  first_name?: string;
-  last_name?: string;
+  fname?: string;
+  lname?: string;
+  email?: string;
   seat_num?: number;
 }
 
