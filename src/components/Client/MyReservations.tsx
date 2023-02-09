@@ -14,6 +14,9 @@ const MyReservations: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!sessionStorage.getItem("userId")) {
+      navigate("/");
+    }
     getLoggedInUser();
     getMyReservations();
   }, []);
@@ -63,7 +66,7 @@ const MyReservations: React.FC = () => {
           My Reservations
         </h1>
 
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 justify-center px-4 pt-12 pb-8 w-full">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 justify-center px-4 pt-12 pb-8 w-1/2">
           {myReservations ? (
             myReservations.map((myReservation, key) => (
               <div
@@ -93,7 +96,7 @@ const MyReservations: React.FC = () => {
                         cancelReservation(myReservation.id);
                       }}
                     >
-                      <i className="fa-sharp fa-solid fa-xmark text-2xl"></i>
+                      <i className="fa-sharp fa-solid fa-xmark text-2xl translate-x-24"></i>
                     </button>
                   </div>
                   <div className="flex px-4 gap-x-4 items-center">
