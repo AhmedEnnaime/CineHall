@@ -20,30 +20,26 @@ const BookForm = ({ num }: Seats) => {
   const url = "http://localhost/YouCode/CineHall_api";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log("handle");
-    // console.log(num);
     setBookInfo((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
-      num: num,
     }));
   };
-  console.log(num);
 
-  const book = () => {
-    console.log(bookInfo);
+  const obj = { num: num };
+  Object.assign(bookInfo, obj);
 
-    // await axios
-    //   .post(`${url}/reservations/takeReservation/${film?.id}`, bookInfo)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     // if (res.status === 200) {
-    //     //   navigate("/availableFilms");
-    //     // }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+  const book = async () => {
+    await axios
+      .post(`${url}/reservations/takeReservation/${film?.id}`, bookInfo)
+      .then((res) => {
+        if (res.status === 200) {
+          navigate("/availableFilms");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
