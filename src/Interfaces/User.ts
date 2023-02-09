@@ -3,8 +3,8 @@ export interface User {
   fname: string;
   lname: string;
   email: string;
-  role: number;
-  key: string | null;
+  role?: number;
+  key?: string | null;
   password?: string | null;
 }
 

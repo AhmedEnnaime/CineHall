@@ -13,6 +13,7 @@ import FilmContext from "./context/FilmContext";
 import Film from "./Interfaces/Film";
 import Reservations from "./components/Admin/Reservations";
 import MyReservations from "./components/Client/MyReservations";
+import Profile from "./components/Client/Profile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +44,7 @@ function App() {
                 path="/myReservations"
                 element={<MyReservations />}
               ></Route>
+              <Route path="/profile" element={<Profile />}></Route>
             </Routes>
           </QueryClientProvider>
         </FilmContext.Provider>
