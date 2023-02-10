@@ -45,9 +45,9 @@ const SideBar: React.FC = () => {
 
   const getLoggedAdmin = async () => {
     await axios
-      .get(`${url}/users/getLoggedInAdmin/${adminId}`)
+      .get(`${url}/users/getLoggedInUser/${adminId}`)
       .then((res) => {
-        setAdmin(res.data.Admin);
+        setAdmin(res.data.User);
       })
       .catch((err) => {
         console.log(err);

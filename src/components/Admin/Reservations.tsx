@@ -21,6 +21,8 @@ const Reservations: React.FC = () => {
     await axios
       .get(`${url}/reservations`)
       .then((res) => {
+        console.log(res.data.Reservations);
+
         setReservations(res.data.Reservations);
       })
       .catch((err) => {

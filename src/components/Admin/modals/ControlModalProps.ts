@@ -5,6 +5,7 @@ export type ControlModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   hall?: Hall;
+  setHall?: React.Dispatch<React.SetStateAction<Hall>>;
 };
 
 export type ControlFailModalProps = {
@@ -16,6 +17,7 @@ export type ControlFilmModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   film?: Film | undefined;
+  setFilm?: React.Dispatch<React.SetStateAction<Film>>;
 };
 
 export type ControlBookFormProps = {

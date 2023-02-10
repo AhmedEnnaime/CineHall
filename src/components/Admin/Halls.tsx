@@ -9,7 +9,10 @@ import { useNavigate } from "react-router-dom";
 
 const Halls: React.FC = () => {
   const [halls, setHalls] = useState<Hall[]>();
-  const [hall, setHall] = useState<Hall>();
+  const [hall, setHall] = useState<Hall>({
+    name: "",
+    capacity: 0,
+  });
   const url = "http://localhost/YouCode/CineHall_api";
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -69,7 +72,7 @@ const Halls: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setHall(undefined);
+                  setHall({ name: "", capacity: 0 });
                   setOpen(true);
                 }}
                 className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
@@ -158,7 +161,12 @@ const Halls: React.FC = () => {
                     </tbody>
                   </table>
                   {open ? (
-                    <HallModal open={open} setOpen={setOpen} hall={hall} />
+                    <HallModal
+                      open={open}
+                      setOpen={setOpen}
+                      hall={hall}
+                      setHall={setHall}
+                    />
                   ) : (
                     ""
                   )}

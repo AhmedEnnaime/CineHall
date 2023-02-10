@@ -9,7 +9,13 @@ import { useNavigate } from "react-router-dom";
 const Films: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [films, setFilms] = useState<Film[]>();
-  const [film, setFilm] = useState<Film>();
+  const [film, setFilm] = useState<Film>({
+    title: "",
+    date: "",
+    time: "",
+    hall: "",
+    hall_id: 0,
+  });
   const url = "http://localhost/YouCode/CineHall_api";
   const navigate = useNavigate();
 
@@ -69,7 +75,13 @@ const Films: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setFilm(undefined);
+                  setFilm({
+                    title: "",
+                    date: "",
+                    time: "",
+                    hall_id: 0,
+                    hall: "",
+                  });
                   setOpen(true);
                 }}
                 className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
@@ -177,7 +189,12 @@ const Films: React.FC = () => {
                     </tbody>
                   </table>
                   {open ? (
-                    <FilmModal open={open} setOpen={setOpen} film={film} />
+                    <FilmModal
+                      open={open}
+                      setOpen={setOpen}
+                      film={film}
+                      setFilm={setFilm}
+                    />
                   ) : (
                     ""
                   )}

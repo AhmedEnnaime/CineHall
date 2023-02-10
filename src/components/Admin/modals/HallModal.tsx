@@ -6,7 +6,7 @@ import axios from "axios";
 import Hall from "../../../Interfaces/Hall";
 import { useState } from "react";
 
-const HallModal = ({ open, setOpen, hall }: ControlModalProps) => {
+const HallModal = ({ open, setOpen, hall, setHall }: ControlModalProps) => {
   const cancelButtonRef = useRef(null);
   const [inputs, setInputs] = useState<Hall>({
     name: "",
@@ -14,16 +14,27 @@ const HallModal = ({ open, setOpen, hall }: ControlModalProps) => {
   });
 
   const url = "http://localhost/YouCode/CineHall_api";
-  const { name, capacity } = inputs;
+  // const { name, capacity } = inputs;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHall
+      ? setHall((prevState: any) => ({
+          ...prevState,
+          [e.target.name]: e.target.value,
+        }))
+      : "";
+  };
+
   const handleAddSubmit = async (e: React.FormEvent<EventTarget>) => {
+    console.log(inputs);
+
     e.preventDefault();
     await axios
       .post<Hall>(`${url}/halls/createHalls`, inputs)
@@ -43,7 +54,7 @@ const HallModal = ({ open, setOpen, hall }: ControlModalProps) => {
   ) => {
     e.preventDefault();
     await axios
-      .post<Hall>(`${url}/halls/updateHall/${id}`, inputs)
+      .post<Hall>(`${url}/halls/updateHall/${id}`, hall)
       .then((res) => {
         if (res.status === 200) {
           setOpen(false);
@@ -114,7 +125,7 @@ const HallModal = ({ open, setOpen, hall }: ControlModalProps) => {
                               type="text"
                               name="name"
                               value={inputs?.name}
-                              onChange={handleChange}
+                              onChange={handleAddChange}
                               id="name"
                               className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               placeholder="Enter hall's name"
@@ -134,7 +145,7 @@ const HallModal = ({ open, setOpen, hall }: ControlModalProps) => {
                               type="number"
                               name="capacity"
                               value={inputs?.capacity}
-                              onChange={handleChange}
+                              onChange={handleAddChange}
                               id="capacity"
                               className="block w-full px-4 h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               placeholder="Enter hall's name"
@@ -188,12 +199,12 @@ const HallModal = ({ open, setOpen, hall }: ControlModalProps) => {
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                  {hall ? (
+                  {hall?.id ? (
                     <button
                       type="submit"
                       className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
                       onClick={(e) => {
-                        handleUpdateSubmit(e, hall.id as number);
+                        handleUpdateSubmit(e, hall?.id as number);
                       }}
                     >
                       Update

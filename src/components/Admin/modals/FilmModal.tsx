@@ -7,7 +7,7 @@ import axios from "axios";
 import Hall from "../../../Interfaces/Hall";
 import { ControlFilmModalProps } from "./ControlModalProps";
 
-const FilmModal = ({ open, setOpen, film }: ControlFilmModalProps) => {
+const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
   const cancelButtonRef = useRef(null);
   const url = "http://localhost/YouCode/CineHall_api";
   const [halls, setHalls] = useState<Hall[]>();
@@ -22,21 +22,22 @@ const FilmModal = ({ open, setOpen, film }: ControlFilmModalProps) => {
     getHalls();
   }, []);
 
-  const { title, date, time, hall_id } = inputs;
+  // const { title, date, time, hall_id } = inputs;
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
-    setInputs((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    setFilm
+      ? setFilm((prevState) => ({
+          ...prevState,
+          [e.target.name]: e.target.value,
+        }))
+      : "";
   };
 
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
-    console.log(inputs);
-
+    // console.log(inputs);
     // e.preventDefault();
     // await axios
     //   .post<Film>(`${url}/films/addFilms`, inputs)
@@ -62,6 +63,9 @@ const FilmModal = ({ open, setOpen, film }: ControlFilmModalProps) => {
         console.log(err);
       });
   };
+
+  console.log(halls);
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
