@@ -28,7 +28,6 @@ const Halls: React.FC = () => {
     await axios
       .get(`${url}/halls/getHallById/${id}`)
       .then((res) => {
-        console.log(res.data.Hall);
         setHall(res.data.Hall);
       })
       .catch((err) => {

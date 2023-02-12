@@ -22,8 +22,7 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
     getHalls();
   }, []);
 
-  // const { title, date, time, hall_id } = inputs;
-  const handleChange = (
+  const handleUpdateChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
@@ -36,7 +35,18 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
       : "";
   };
 
-  const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
+  const handleAddChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleAddSubmit = async (e: React.FormEvent<EventTarget>) => {
     // console.log(inputs);
     // e.preventDefault();
     // await axios
@@ -52,11 +62,29 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
     //   });
   };
 
+  const handleUpdateSubmit = async (
+    e: React.FormEvent<EventTarget>,
+    id: number
+  ) => {
+    // console.log(inputs);
+    // e.preventDefault();
+    // await axios
+    //   .post<Film>(`${url}/films/updateFilm/${id}`, film)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     if (res.status === 200) {
+    //       setOpen(false);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  };
+
   const getHalls = async () => {
     await axios
       .get(`${url}/halls`)
       .then((res) => {
-        console.log(res.data);
         setHalls(res.data.Halls);
       })
       .catch((err) => {
@@ -112,7 +140,7 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                     >
                       Fill films's information
                     </Dialog.Title>
-                    {film ? (
+                    {!film?.id ? (
                       <form className="flex flex-col items-center mt-4">
                         <div className="text-left w-full">
                           <label
@@ -125,8 +153,8 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                             <input
                               type="text"
                               name="title"
-                              value={film.title}
-                              onChange={handleChange}
+                              value={inputs.title}
+                              onChange={handleAddChange}
                               id="title"
                               className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               placeholder="Enter film's title"
@@ -145,8 +173,8 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                             <input
                               type="date"
                               name="date"
-                              value={film.date}
-                              onChange={handleChange}
+                              value={inputs.date}
+                              onChange={handleAddChange}
                               id="date"
                               className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               placeholder=""
@@ -165,8 +193,8 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                             <input
                               type="time"
                               name="time"
-                              value={film.time}
-                              onChange={handleChange}
+                              value={inputs.time}
+                              onChange={handleAddChange}
                               id="time"
                               className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               placeholder="Enter time of the film"
@@ -184,8 +212,8 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                           <select
                             id="hall_id"
                             name="hall_id"
-                            value={film.hall_id}
-                            onChange={handleChange}
+                            value={inputs.hall_id}
+                            onChange={handleAddChange}
                             className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             // defaultValue="Canada"
                           >
@@ -193,7 +221,7 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                               <option value="">Select film's hall</option>
                               {halls
                                 ? halls.forEach((hall, key) => {
-                                    <option value={hall.id}>
+                                    <option key={key} value={hall.id}>
                                       {hall.name}
                                     </option>;
                                   })
@@ -215,8 +243,8 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                             <input
                               type="text"
                               name="title"
-                              value={inputs.title}
-                              onChange={handleChange}
+                              value={film.title}
+                              onChange={handleUpdateChange}
                               id="title"
                               className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               placeholder="Enter film's title"
@@ -235,8 +263,8 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                             <input
                               type="date"
                               name="date"
-                              value={inputs.date}
-                              onChange={handleChange}
+                              value={film.date}
+                              onChange={handleUpdateChange}
                               id="date"
                               className="block px-4 h-8 w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               placeholder=""
@@ -255,8 +283,8 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                             <input
                               type="time"
                               name="time"
-                              value={inputs.time}
-                              onChange={handleChange}
+                              value={film.time}
+                              onChange={handleUpdateChange}
                               id="time"
                               className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               placeholder="Enter time of the film"
@@ -274,8 +302,8 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                           <select
                             id="hall_id"
                             name="hall_id"
-                            value={inputs.hall_id}
-                            onChange={handleChange}
+                            value={film.hall_id}
+                            onChange={handleUpdateChange}
                             className="block px-4 w-full h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             // defaultValue="Canada"
                           >
@@ -283,7 +311,7 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                               <option value="">Select film's hall</option>
                               {halls
                                 ? halls.forEach((hall, key) => {
-                                    <option value={hall.id}>
+                                    <option key={key} value={hall.id}>
                                       {hall.name}
                                     </option>;
                                   })
@@ -296,11 +324,13 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                  {film ? (
+                  {film?.id ? (
                     <button
                       type="submit"
                       className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-                      // onClick={handleSubmit}
+                      onClick={(e) => {
+                        handleUpdateSubmit(e, film.id as number);
+                      }}
                     >
                       Update
                     </button>
@@ -308,7 +338,7 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                     <button
                       type="submit"
                       className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-                      onClick={handleSubmit}
+                      onClick={handleAddSubmit}
                     >
                       Add
                     </button>

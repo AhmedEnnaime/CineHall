@@ -21,8 +21,6 @@ const Reservations: React.FC = () => {
     await axios
       .get(`${url}/reservations`)
       .then((res) => {
-        console.log(res.data.Reservations);
-
         setReservations(res.data.Reservations);
       })
       .catch((err) => {
@@ -34,7 +32,6 @@ const Reservations: React.FC = () => {
     await axios
       .delete(`${url}/reservations/cancelReservation/${id}`)
       .then((res) => {
-        console.log(res.status);
         if (res.status === 202) {
           navigate("/reservations");
         }

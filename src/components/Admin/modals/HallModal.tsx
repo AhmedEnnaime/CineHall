@@ -14,7 +14,6 @@ const HallModal = ({ open, setOpen, hall, setHall }: ControlModalProps) => {
   });
 
   const url = "http://localhost/YouCode/CineHall_api";
-  // const { name, capacity } = inputs;
 
   const handleAddChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs((prevState) => ({
@@ -33,8 +32,6 @@ const HallModal = ({ open, setOpen, hall, setHall }: ControlModalProps) => {
   };
 
   const handleAddSubmit = async (e: React.FormEvent<EventTarget>) => {
-    console.log(inputs);
-
     e.preventDefault();
     await axios
       .post<Hall>(`${url}/halls/createHalls`, inputs)
@@ -111,7 +108,7 @@ const HallModal = ({ open, setOpen, hall, setHall }: ControlModalProps) => {
                     >
                       Fill hall's information
                     </Dialog.Title>
-                    {!hall ? (
+                    {!hall?.id ? (
                       <form className="flex flex-col items-center mt-4">
                         <div className="text-left w-full">
                           <label
