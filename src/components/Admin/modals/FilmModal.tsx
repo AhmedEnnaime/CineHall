@@ -47,19 +47,18 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
   };
 
   const handleAddSubmit = async (e: React.FormEvent<EventTarget>) => {
-    // console.log(inputs);
-    // e.preventDefault();
-    // await axios
-    //   .post<Film>(`${url}/films/addFilms`, inputs)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.status === 201) {
-    //       setOpen(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    e.preventDefault();
+    await axios
+      .post<Film>(`${url}/films/addFilms`, inputs)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 201) {
+          setOpen(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleUpdateSubmit = async (
@@ -67,18 +66,18 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
     id: number
   ) => {
     // console.log(inputs);
-    // e.preventDefault();
-    // await axios
-    //   .post<Film>(`${url}/films/updateFilm/${id}`, film)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.status === 200) {
-    //       setOpen(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    e.preventDefault();
+    await axios
+      .post<Film>(`${url}/films/updateFilm/${id}`, film)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 200) {
+          setOpen(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const getHalls = async () => {
@@ -91,8 +90,6 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
         console.log(err);
       });
   };
-
-  console.log(halls);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -220,10 +217,12 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                             <>
                               <option value="">Select film's hall</option>
                               {halls
-                                ? halls.forEach((hall, key) => {
-                                    <option key={key} value={hall.id}>
-                                      {hall.name}
-                                    </option>;
+                                ? halls.map((hall, key) => {
+                                    return (
+                                      <option key={key} value={hall.id}>
+                                        {hall.name}
+                                      </option>
+                                    );
                                   })
                                 : ""}
                             </>
@@ -310,10 +309,12 @@ const FilmModal = ({ open, setOpen, film, setFilm }: ControlFilmModalProps) => {
                             <>
                               <option value="">Select film's hall</option>
                               {halls
-                                ? halls.forEach((hall, key) => {
-                                    <option key={key} value={hall.id}>
-                                      {hall.name}
-                                    </option>;
+                                ? halls.map((hall, key) => {
+                                    return (
+                                      <option key={key} value={hall.id}>
+                                        {hall.name}
+                                      </option>
+                                    );
                                   })
                                 : ""}
                             </>
