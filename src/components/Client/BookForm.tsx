@@ -27,7 +27,9 @@ const BookForm = ({ num }: Seats) => {
   };
 
   const obj = { num: num };
+
   Object.assign(bookInfo, obj);
+  console.log(bookInfo);
 
   const book = async () => {
     await axios
@@ -43,8 +45,8 @@ const BookForm = ({ num }: Seats) => {
   };
 
   return (
-    <div className="mt-10 sm:mt-0">
-      <div className="md:grid md:grid-cols-3 md:gap-6 mt-24 px-4 w-full">
+    <div className="mt-10 sm:mt-0 w-1/2 flex items-center justify-center">
+      <div className="md:grid md:grid-cols-3 md:gap-6 mt-24 px-4">
         <div className="mt-5 md:col-span-2 md:mt-0">
           <form action="" method="">
             <div className="overflow-hidden shadow sm:rounded-md">

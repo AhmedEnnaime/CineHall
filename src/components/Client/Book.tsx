@@ -72,6 +72,7 @@ const Book: React.FC = () => {
       for (let chair of chairs) {
         if (chair.nextSibling?.textContent == reservation.seat_num) {
           chair.classList.add("text-red-500");
+          chair.classList.add("pointer-events-none");
         }
       }
     });
@@ -82,7 +83,7 @@ const Book: React.FC = () => {
       <Navbar />
       <div className="flex">
         <BookForm num={getSelectedSeats()} />
-        <div className="grid gap-6 grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 justify-center px-4 pt-28 pb-8">
+        <div className="grid w-1/2 gap-6 grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 justify-center px-4 pt-28 pb-8">
           <>
             {getCapacityHall()
               ? getCapacityHall().map((seat, key) => (

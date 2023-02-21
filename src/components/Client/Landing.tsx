@@ -58,7 +58,7 @@ const Landing: React.FC = () => {
                   type="button"
                   onClick={() => {
                     sessionStorage.getItem("userId")
-                      ? navigate("/")
+                      ? navigate("/myReservations")
                       : setOpen(true);
                   }}
                   className="font-inter font-medium text-sm leading-[17px] text-black bg-white rounded-full border px-5 py-4 border-cool-gray-200 flex flex-row flex-nowrap items-center gap-2.5 dark:text-cool-gray-600 dark:bg-primary-dark"
@@ -93,7 +93,7 @@ const Landing: React.FC = () => {
                   type="button"
                   onClick={() => {
                     sessionStorage.getItem("userId")
-                      ? navigate("/")
+                      ? navigate("/myReservations")
                       : setOpen(true);
                   }}
                   className="font-inter font-medium text-sm leading-[17px] text-black bg-white rounded-full border px-5 py-4 border-cool-gray-200 flex flex-row flex-nowrap items-center gap-2.5 dark:text-cool-gray-600 dark:bg-primary-dark"
@@ -128,7 +128,7 @@ const Landing: React.FC = () => {
                   type="button"
                   onClick={() => {
                     sessionStorage.getItem("userId")
-                      ? navigate("/")
+                      ? navigate("/myReservations")
                       : setOpen(true);
                   }}
                   className="font-inter font-medium text-sm leading-[17px] text-black bg-white rounded-full border px-5 py-4 border-cool-gray-200 flex flex-row flex-nowrap items-center gap-2.5 dark:text-cool-gray-600 dark:bg-primary-dark"

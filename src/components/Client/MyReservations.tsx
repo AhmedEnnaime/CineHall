@@ -36,7 +36,6 @@ const MyReservations: React.FC = () => {
     await axios
       .get(`${url}/reservations/getUserReservation/${user?.key}`)
       .then((res) => {
-        console.log(res.data.Reservations);
         setMyReservations(res.data.Reservations);
       })
       .catch((err) => {
@@ -90,14 +89,23 @@ const MyReservations: React.FC = () => {
                 </div>
                 <div className="flex flex-col gap-y-4 items-center">
                   <div className="flex justify-end">
-                    <button
-                      className=""
-                      onClick={() => {
-                        cancelReservation(myReservation.id);
-                      }}
-                    >
-                      <i className="fa-sharp fa-solid fa-xmark text-2xl translate-x-24"></i>
-                    </button>
+                    {myReservation.reservation_date ? (
+                      new Date(myReservation.reservation_date).getTime() >
+                      new Date().getTime() ? (
+                        <button
+                          className=""
+                          onClick={() => {
+                            cancelReservation(myReservation.id);
+                          }}
+                        >
+                          <i className="fa-sharp fa-solid fa-xmark text-2xl translate-x-24"></i>
+                        </button>
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="flex px-4 gap-x-4 items-center">
                     <div className="flex items-center gap-x-2">
