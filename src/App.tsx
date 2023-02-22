@@ -14,6 +14,7 @@ import Film from "./Interfaces/Film";
 import Reservations from "./components/Admin/Reservations";
 import MyReservations from "./components/Client/MyReservations";
 import Profile from "./components/Client/Profile";
+import Contact from "./components/Client/Contact";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,6 +41,7 @@ function App() {
               <Route path="/reservations" element={<Reservations />}></Route>
               <Route path="/availableFilms" element={<FilmsClient />}></Route>
               <Route path="/book" element={<Book />}></Route>
+              <Route path="/contact" element={<Contact />}></Route>
               <Route
                 path="/myReservations"
                 element={<MyReservations />}

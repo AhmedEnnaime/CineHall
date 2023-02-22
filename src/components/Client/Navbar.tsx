@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
     { name: "Home", href: "/" },
     { name: "Films", href: "/availableFilms" },
     { name: "About us", href: "#" },
-    { name: "Contact", href: "#" },
+    { name: "Contact", href: "/contact" },
   ];
   const [userId, setUserId] = useSessionStorage("userId", "");
   const url = "http://localhost/YouCode/CineHall_api";
