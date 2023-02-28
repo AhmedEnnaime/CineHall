@@ -60,17 +60,17 @@ const MyReservations: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="flex items-center justify-center flex-col gap-y-8 mt-10">
-        <h1 className="text-center text-4xl bg-gray-100 rounded-sm p-4 w-1/2">
+      <div className="flex items-center flex-col gap-y-8 mt-10">
+        <h1 className="text-center text-4xl bg-gray-100 rounded-sm p-4 md:w-1/2">
           My Reservations
         </h1>
 
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 justify-center px-4 pt-12 pb-8 w-1/2">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 justify-center px-4 pt-12 pb-8 md:w-1/2">
           {myReservations ? (
             myReservations.map((myReservation, key) => (
               <div
                 key={key}
-                className="flex justify-between items-center p-4 rounded-md bg-gray-200 w-full"
+                className="flex flex-col md:flex-row justify-between items-center p-4 rounded-md bg-gray-200 w-full"
               >
                 <div className="flex flex-col items-center px-4">
                   <h2 className="pb-4">

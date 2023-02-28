@@ -16,7 +16,6 @@ const Navbar: React.FC = () => {
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Films", href: "/availableFilms" },
-    { name: "About us", href: "#" },
     { name: "Contact", href: "/contact" },
   ];
   const [userId, setUserId] = useSessionStorage("userId", "");

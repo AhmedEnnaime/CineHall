@@ -81,9 +81,9 @@ const Book: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="flex">
+      <div className="flex flex-col md:flex-row items-center">
         <BookForm num={getSelectedSeats()} />
-        <div className="grid w-1/2 gap-6 grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 justify-center px-4 pt-28 pb-8">
+        <div className="grid w-full md:w-1/2 gap-6 grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 justify-center px-4 pt-28 pb-8">
           <>
             {getCapacityHall()
               ? getCapacityHall().map((seat, key) => (
