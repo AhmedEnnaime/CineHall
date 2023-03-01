@@ -11,13 +11,12 @@ const Book: React.FC = () => {
   const [film] = useContext(FilmContext);
   const [hall, setHall] = useState<Hall>();
   const [reservations, setReservations] = useState<IReservation[]>();
-
   const url = "http://localhost/YouCode/CineHall_api";
 
   useEffect(() => {
     getReservations();
-    getHall(film?.hall_id as number);
     getReservedSeats();
+    getHall(film?.hall_id as number);
   }, []);
 
   const getCapacityHall = () => {
@@ -66,7 +65,7 @@ const Book: React.FC = () => {
       });
   };
 
-  const getReservedSeats = () => {
+  const getReservedSeats = async () => {
     const chairs = document.querySelectorAll(".seat");
     reservations?.map((reservation) => {
       for (let chair of chairs) {

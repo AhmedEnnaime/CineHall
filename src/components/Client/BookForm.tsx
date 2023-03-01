@@ -29,8 +29,7 @@ const BookForm = ({ num }: Seats) => {
   const obj = { num: num };
 
   Object.assign(bookInfo, obj);
-  console.log(bookInfo);
-
+  // console.log(bookInfo);
   const book = async () => {
     await axios
       .post(`${url}/reservations/takeReservation/${film?.id}`, bookInfo)
